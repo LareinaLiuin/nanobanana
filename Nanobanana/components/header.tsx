@@ -1,6 +1,13 @@
+'use client'
+
 import Link from "next/link"
+import { GitHubLoginButton } from "./github-login-button"
+import { UserProfile } from "./user-profile"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function Header() {
+  const { user, loading } = useAuth()
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,14 +34,30 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* CTA Buttons */}
+          {/* Authentication */}
           <div className="flex items-center gap-3">
-            <button className="px-6 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-full transition">
-              Sign In
-            </button>
-            <button className="px-6 py-2 text-sm font-medium text-white bg-primary hover:bg-yellow-500 rounded-full transition">
-              Start Editing
-            </button>
+            {loading ? (
+              <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse"></div>
+            ) : user ? (
+              <UserProfile />
+            ) : (
+              <>
+                <GitHubLoginButton
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-900 hover:bg-gray-100 rounded-full"
+                >
+                  Sign In
+                </GitHubLoginButton>
+                <GitHubLoginButton
+                  variant="default"
+                  size="sm"
+                  className="bg-primary hover:bg-yellow-500 rounded-full"
+                >
+                  Start Editing
+                </GitHubLoginButton>
+              </>
+            )}
           </div>
         </div>
       </div>
