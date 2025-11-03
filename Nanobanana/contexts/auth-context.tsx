@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null
   loading: boolean
   loginWithGitHub: (redirectTo?: string) => Promise<void>
+  loginWithGoogle: (redirectTo?: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -51,6 +52,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const loginWithGoogle = async (redirectTo?: string) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/google${redirectTo ? `?next=${encodeURIComponent(redirectTo)}` : ''}`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
+
+    if (error) {
+      throw error
+    }
+  }
+
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
     if (error) {
@@ -62,6 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     loading,
     loginWithGitHub,
+    loginWithGoogle,
     logout,
   }
 

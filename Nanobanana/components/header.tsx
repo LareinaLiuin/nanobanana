@@ -2,8 +2,59 @@
 
 import Link from "next/link"
 import { GitHubLoginButton } from "./github-login-button"
+import { GoogleLoginButton } from "./google-login-button"
 import { UserProfile } from "./user-profile"
 import { useAuth } from "@/contexts/auth-context"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { User } from "lucide-react"
+
+function LoginDropdown() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 rounded-full transition">
+          <User className="h-4 w-4" />
+          Sign In
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuLabel>Choose login method</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <div className="w-full">
+            <GitHubLoginButton
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start h-auto p-2"
+              showIcon={true}
+            >
+              Continue with GitHub
+            </GitHubLoginButton>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <div className="w-full">
+            <GoogleLoginButton
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start h-auto p-2"
+              showIcon={true}
+            >
+              Continue with Google
+            </GoogleLoginButton>
+          </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
 export default function Header() {
   const { user, loading } = useAuth()
@@ -42,13 +93,7 @@ export default function Header() {
               <UserProfile />
             ) : (
               <>
-                <GitHubLoginButton
-                  variant="ghost"
-                  size="sm"
-                  className="text-gray-900 hover:bg-gray-100 rounded-full"
-                >
-                  Sign In
-                </GitHubLoginButton>
+                <LoginDropdown />
                 <GitHubLoginButton
                   variant="default"
                   size="sm"

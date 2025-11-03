@@ -1,12 +1,19 @@
-# Supabase GitHub Authentication Setup Guide
+# Supabase OAuth Authentication Setup Guide
 
-This guide will walk you through setting up GitHub OAuth authentication with Supabase for the Nano Banana project.
+This guide will walk you through setting up OAuth authentication with Supabase for the Nano Banana project. The project supports both **GitHub** and **Google** OAuth providers.
 
 ## Prerequisites
 
 - A Supabase account (free tier is sufficient)
-- A GitHub account
+- GitHub account (for GitHub OAuth)
+- Google account (for Google OAuth)
 - Nano Banana project set up locally
+
+## Supported OAuth Providers
+
+- ✅ **GitHub OAuth** - GitHub account login
+- ✅ **Google OAuth** - Google account login
+- 🔄 **Multiple Providers** - Users can choose their preferred login method
 
 ## Step 1: Create a Supabase Project
 
@@ -191,9 +198,27 @@ const supabase = createClient(url, key, {
 
 ## Support
 
+## 🔗 Additional OAuth Provider: Google
+
+For Google OAuth setup, please refer to the dedicated [Google OAuth Setup Guide](./GOOGLE_OAUTH_SETUP.md).
+
+### Quick Google OAuth Setup Summary:
+
+1. **Create Google OAuth App** in Google Cloud Console
+2. **Enable Google Provider** in Supabase Authentication → Providers
+3. **Add environment variables**:
+   ```env
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   ```
+4. **Test login** using the "Continue with Google" option
+
+## Support
+
 If you run into issues:
 
 1. Check the [Supabase Auth documentation](https://supabase.com/docs/guides/auth)
 2. Review [GitHub OAuth App documentation](https://docs.github.com/en/developers/apps/building-oauth-apps)
-3. Check browser console and server logs for error details
-4. Ensure all environment variables are correctly set
+3. Check the [Google OAuth Setup Guide](./GOOGLE_OAUTH_SETUP.md) for Google-specific issues
+4. Check browser console and server logs for error details
+5. Ensure all environment variables are correctly set
